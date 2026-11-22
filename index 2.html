@@ -1,0 +1,54 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><title>NFL | Live Division Wall</title><style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;min-height:100%;background:#07101c;color:#f6f9ff;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif}body{padding:10px 13px}.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;border-bottom:1px solid #29405a;padding-bottom:8px}.brand{font-size:21px;font-weight:900;letter-spacing:2px}.brand span{color:#7aa8e5}.meta{font-size:11px;color:#a9bed6;text-align:right}.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#e9b64a;margin-right:5px}.dot.ok{background:#46d69c}.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}.conference{background:#101e31;border:1px solid #263b53;border-radius:11px;padding:9px}.conference-title{font-weight:900;text-align:center;font-size:18px;letter-spacing:3px;padding:6px;border-radius:6px;margin-bottom:9px}.afc .conference-title{background:#9f2735}.nfc .conference-title{background:#245d9c}.division{margin-bottom:9px}.division:last-child{margin-bottom:0}.division-name{font-size:10px;font-weight:900;letter-spacing:2px;color:#91a9c7;margin:0 0 4px 3px}.team{height:30px;display:flex;align-items:center;background:#1b2e46;border-radius:5px;margin-bottom:3px;padding:2px 7px;border-left:3px solid transparent;gap:6px}.team.changed{border-left-color:#43d79b;background:#214238}.rank{color:#a8bcd4;font-size:11px;width:13px;flex-shrink:0}.logo{width:23px;height:23px;object-fit:contain;flex-shrink:0}.teamname{font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}.record{font-size:11px;font-weight:700;letter-spacing:.2px;color:#dce7f5;white-space:nowrap}.movement{font-size:10px;font-weight:900;min-width:17px;text-align:right}.up{color:#52e2a1}.down{color:#ff8585}.footer{display:flex;justify-content:space-between;align-items:center;color:#90a6c1;font-size:10px;margin-top:8px;gap:8px}.footer button{background:#233c5b;color:white;border:1px solid #3a587a;border-radius:6px;padding:5px 9px;font-size:11px}.warning{color:#ffcb75}.status{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.empty{color:#9cb2c9;font-size:12px;text-align:center;padding:22px 5px}.note{font-size:9px;color:#839ab4;text-align:center;margin-top:5px}@media(min-width:950px){body{padding:12px 18px}.team{height:33px}.teamname{font-size:13px}.division{margin-bottom:11px}}@media(max-width:650px){body{padding:6px}.cols{gap:5px}.conference{padding:5px}.team{padding:2px 3px;gap:3px}.logo{width:18px;height:18px}.teamname{font-size:10px}.record{font-size:9px}.brand{font-size:16px}.conference-title{font-size:15px}}
+</style></head><body><header class="top"><div class="brand">NFL <span>DIVISION BOARD</span></div><div class="meta"><div><span class="dot" id="dot"></span><span id="state">Connecting to standings…</span></div><div id="updated">Checking ESPN</div></div></header><main class="cols"><section class="conference afc"><div class="conference-title">AFC</div><div id="afc"><div class="empty">Loading AFC standings…</div></div></section><section class="conference nfc"><div class="conference-title">NFC</div><div id="nfc"><div class="empty">Loading NFC standings…</div></div></section></main><footer class="footer"><span class="status" id="message">Standings reflect completed games, not live projected results.</span><button onclick="loadStandings()">Refresh ↻</button></footer><div class="note">Source: ESPN published standings (not official NFL.com) • Auto-check every 5 minutes • Green highlights show changes since the last successful check</div>
+<script>
+(function(){
+var divisions=['North','East','South','West'];
+var lookup={AFC:{North:['BAL','PIT','CIN','CLE'],East:['BUF','NE','MIA','NYJ'],South:['HOU','IND','JAX','TEN'],West:['KC','DEN','LAC','LV']},NFC:{North:['DET','GB','CHI','MIN'],East:['PHI','WAS','DAL','NYG'],South:['TB','ATL','CAR','NO'],West:['SF','LAR','SEA','ARI']}};
+var names={BAL:'Ravens',PIT:'Steelers',CIN:'Bengals',CLE:'Browns',BUF:'Bills',NE:'Patriots',MIA:'Dolphins',NYJ:'Jets',HOU:'Texans',IND:'Colts',JAX:'Jaguars',TEN:'Titans',KC:'Chiefs',DEN:'Broncos',LAC:'Chargers',LV:'Raiders',DET:'Lions',GB:'Packers',CHI:'Bears',MIN:'Vikings',PHI:'Eagles',WAS:'Commanders',DAL:'Cowboys',NYG:'Giants',TB:'Buccaneers',ATL:'Falcons',CAR:'Panthers',NO:'Saints',SF:'49ers',LAR:'Rams',SEA:'Seahawks',ARI:'Cardinals'};
+var ids={BAL:33,PIT:23,CIN:4,CLE:5,BUF:2,NE:17,MIA:15,NYJ:20,HOU:34,IND:11,JAX:30,TEN:10,KC:12,DEN:7,LAC:24,LV:13,DET:8,GB:9,CHI:3,MIN:16,PHI:21,WAS:28,DAL:6,NYG:19,TB:27,ATL:1,CAR:29,NO:18,SF:25,LAR:14,SEA:26,ARI:22};
+var aliases={WSH:'WAS',JAC:'JAX',LA:'LAR',OAK:'LV',SD:'LAC',STL:'LAR'};
+var previous=null;var stored=null;try{stored=JSON.parse(localStorage.getItem('nfl_wall_previous_v1')||'null')}catch(e){};
+function el(id){return document.getElementById(id)};
+function stat(entry,key){var s=(entry.stats||[]);for(var i=0;i<s.length;i++)if(s[i].name===key||s[i].abbreviation===key)return s[i];return null}
+function statValue(entry,key){var s=stat(entry,key);return s?(s.value!==undefined?Number(s.value):Number(s.displayValue)):NaN}
+function statText(entry,key){var s=stat(entry,key);return s?String(s.displayValue!==undefined?s.displayValue:s.value):''}
+function normalize(raw){var a=String(raw||'').toUpperCase();return aliases[a]||a}
+function getEntryTeam(entry){var t=entry.team||{};return normalize(t.abbreviation||t.shortDisplayName||'')}
+function parse(data){
+ var result={AFC:{},NFC:{}};var groups=[];
+ function walk(node,depth){
+  if(!node||typeof node!=="object"||depth>12)return;
+  var entries=(node.standings&&node.standings.entries)||node.entries;
+  if(Array.isArray(entries)&&entries.length)groups.push(entries);
+  ["children","groups","items"].forEach(function(k){if(Array.isArray(node[k]))node[k].forEach(function(child){walk(child,depth+1)})});
+  if(node.standings&&node.standings!==node)walk(node.standings,depth+1);
+ }
+ walk(data,0);
+ for(var cf in lookup)for(var d=0;d<divisions.length;d++){
+  var dv=divisions[d],expected=lookup[cf][dv],best=null,score=-1;
+  groups.forEach(function(entries){
+   var matches=entries.filter(function(e){return expected.indexOf(getEntryTeam(e))>=0});
+   if(matches.length!==4||new Set(matches.map(getEntryTeam)).size!==4)return;
+   var ranks=matches.map(function(e){return statValue(e,"divisionRank")});
+   var valid=ranks.every(function(n){return isFinite(n)&&n>=1&&n<=4})&&new Set(ranks).size===4;
+   if(valid){matches.sort(function(a,b){return statValue(a,"divisionRank")-statValue(b,"divisionRank")})}
+   // A four-team division group is already ordered by ESPN. A conference-wide
+   // group is usable only if each team's division rank is explicitly supplied.
+   if(!valid&&entries.length!==4)return;
+   var priority=valid?2:1;
+   if(priority>score){best=matches;score=priority}
+  });
+  if(!best)throw Error("ESPN did not provide a verified order for "+cf+" "+dv);
+  result[cf][dv]=best.map(makeTeam);
+ }
+ return result;
+}
+function makeTeam(e){var abbr=getEntryTeam(e);var w=statText(e,'wins'),l=statText(e,'losses'),t=statText(e,'ties');var overall=statText(e,'overall');var rec=(w!==''&&l!=='')?(w+'-'+l+(t!==''&&t!=='0'?'-'+t:'')):(overall||'—');return {abbr:abbr,record:rec}}
+function render(result,prior){for(var cf in lookup){var html='';for(var di=0;di<divisions.length;di++){var div=divisions[di],teams=result[cf][div];html+='<div class="division"><div class="division-name">'+div.toUpperCase()+'</div>';for(var j=0;j<teams.length;j++){var team=teams[j],ab=team.abbr,old=-1;if(prior&&prior[cf]&&prior[cf][div])for(var z=0;z<prior[cf][div].length;z++)if(prior[cf][div][z].abbr===ab)old=z;var change=old<0?'':old>j?'<span class="movement up">▲'+(old-j)+'</span>':old<j?'<span class="movement down">▼'+(j-old)+'</span>':'<span class="movement"></span>';var moved=old>=0&&old!==j;html+='<div class="team'+(moved?' changed':'')+'"><span class="rank">'+(j+1)+'</span><img class="logo" alt="" src="https://a.espncdn.com/i/teamlogos/nfl/500/'+ab.toLowerCase()+'.png" onerror="this.style.visibility=\'hidden\'"><span class="teamname">'+(names[ab]||ab)+'</span><span class="record">'+team.record+'</span>'+change+'</div>'}html+='</div>'}el(cf.toLowerCase()).innerHTML=html}}
+function setStatus(ok,msg){el('dot').className=ok?'dot ok':'dot';el('state').textContent=msg}
+window.loadStandings=function(){setStatus(false,'Checking for updates…');var req=new XMLHttpRequest();req.open('GET','https://site.api.espn.com/apis/v2/sports/football/nfl/standings?season=2026&seasontype=2&_='+Date.now(),true);req.timeout=18000;req.onload=function(){try{if(req.status!==200)throw Error('HTTP '+req.status);var result=parse(JSON.parse(req.responseText));var prior=previous||stored;render(result,prior);previous=result;stored=result;try{localStorage.setItem('nfl_wall_previous_v1',JSON.stringify(result))}catch(e){};var time=new Date();el('updated').textContent='Updated '+time.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});setStatus(true,'STANDINGS CONNECTED');el('message').textContent='32 teams • 8 divisions • Published rankings'}catch(err){failure(err)}};req.onerror=function(){failure(Error('Connection unavailable'))};req.ontimeout=function(){failure(Error('Request timed out'))};req.send()};
+function failure(e){setStatus(false,'UPDATE UNAVAILABLE');el('message').textContent='Could not retrieve standings: '+e.message+' • Retry';el('message').className='status warning';if(!previous&&stored){render(stored,null);el('updated').textContent='Showing last saved standings'}}
+if(stored){try{render(stored,null);el('updated').textContent='Showing saved standings'}catch(e){}}loadStandings();setInterval(loadStandings,300000);
+})();
+</script></body></html>
