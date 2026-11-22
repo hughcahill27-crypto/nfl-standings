@@ -1,0 +1,56 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NFL Division Board</title><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="mobile-web-app-capable" content="yes"><meta name="theme-color" content="#07111f"><meta name="apple-mobile-web-app-title" content="NFL Standings"><style>*{box-sizing:border-box}body{margin:0;background:#07111f;color:#f3f7ff;font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif}.top{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid #3c516c}.top h1{font-size:19px;margin:0;letter-spacing:2px}.status{font-size:11px;color:#c7d7ed;text-align:right}.layout{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px}.conference{background:#111e31;border:1px solid #334962;border-radius:11px;padding:9px;min-width:0}.conference h2{text-align:center;margin:0 0 8px;padding:7px;border-radius:7px;font-size:19px;letter-spacing:2px}.afc h2{background:#a62e40}.nfc h2{background:#2269b4}.division{margin-bottom:9px}.division h3{margin:0 0 4px;color:#aac2e3;font-size:11px;letter-spacing:2px}.team{display:flex;align-items:center;gap:6px;background:#203149;border-radius:5px;padding:4px 5px;margin:2px 0;font-size:12px;min-height:28px}.team img{height:21px;width:21px;object-fit:contain}.team .rank{width:14px;color:#aabbd0}.team .name{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.team .record{font-variant-numeric:tabular-nums;color:#d9e6f8}.team.moved{outline:1px solid #46db8d;background:#204537}.foot{padding:3px 12px 10px;color:#b4c4d9;font-size:11px;display:flex;justify-content:space-between;gap:10px}button{background:#314b6e;color:white;border:1px solid #6383a9;border-radius:5px;padding:5px 10px}.error{color:#ffb6a9}@media(max-width:580px){.top h1{font-size:14px}.team{font-size:10px;gap:3px;padding:3px}.team img{height:17px;width:17px}.conference{padding:6px}.layout{gap:5px;padding:5px}.conference h2{font-size:15px}}@media(min-width:800px){.team{min-height:31px;font-size:13px}.division{margin-bottom:12px}}
+/* Portrait wall display: fill available height without stretching columns. */
+html,body{min-height:100%;height:100%;}
+body{display:flex;flex-direction:column;min-height:100vh;min-height:100dvh;overflow:hidden;}
+.top{flex:0 0 auto;padding:12px 14px;min-height:48px}
+.layout{flex:1 1 auto;min-height:0;align-items:stretch;padding:8px 10px;gap:10px}
+.conference{display:flex;flex-direction:column;min-height:0;padding:9px}
+.conference h2{flex:0 0 auto;margin-bottom:7px}
+.conference>div{display:flex;flex:1;min-height:0;flex-direction:column;justify-content:space-between}
+.division{display:flex;flex:1;min-height:0;flex-direction:column;margin-bottom:5px}
+.division h3{flex:0 0 auto;margin-bottom:3px}
+.team{flex:1 1 0;min-height:0;margin:2px 0;padding:3px 5px;font-size:clamp(10px,1.65vh,16px)}
+.team img{height:clamp(16px,2.55vh,27px);width:clamp(16px,2.55vh,27px)}
+.foot{flex:0 0 auto;min-height:38px;align-items:center;padding:5px 12px 9px}
+@media(min-width:800px){.team{min-height:0;font-size:clamp(11px,1.65vh,17px)}.division{margin-bottom:5px}}
+@media(max-width:580px){.team{font-size:clamp(9px,1.5vh,14px);padding:2px}.team img{height:clamp(14px,2.2vh,23px);width:clamp(14px,2.2vh,23px)}}
+</style></head><body><header class="top"><h1>NFL <span style="color:#8db9f5">DIVISION BOARD</span></h1><div class="status" id="status">Checking ESPN…</div></header><main class="layout"><section class="conference afc"><h2>AFC</h2><div id="AFC">Loading standings…</div></section><section class="conference nfc"><h2>NFC</h2><div id="NFC">Loading standings…</div></section></main><footer class="foot"><span id="note">ESPN published standings · Refresh every 5 minutes</span><button onclick="load()">Refresh ↻</button></footer><script>
+(function(){
+var divisions=['North','East','South','West'];
+var teams={
+'BAL':['AFC','North','Ravens',33],'PIT':['AFC','North','Steelers',23],'CIN':['AFC','North','Bengals',4],'CLE':['AFC','North','Browns',5],
+'BUF':['AFC','East','Bills',2],'NE':['AFC','East','Patriots',17],'MIA':['AFC','East','Dolphins',15],'NYJ':['AFC','East','Jets',20],
+'HOU':['AFC','South','Texans',34],'IND':['AFC','South','Colts',11],'JAX':['AFC','South','Jaguars',30],'TEN':['AFC','South','Titans',10],
+'DEN':['AFC','West','Broncos',7],'KC':['AFC','West','Chiefs',12],'LAC':['AFC','West','Chargers',24],'LV':['AFC','West','Raiders',13],
+'CHI':['NFC','North','Bears',3],'DET':['NFC','North','Lions',8],'GB':['NFC','North','Packers',9],'MIN':['NFC','North','Vikings',16],
+'DAL':['NFC','East','Cowboys',6],'NYG':['NFC','East','Giants',19],'PHI':['NFC','East','Eagles',21],'WSH':['NFC','East','Commanders',28],
+'ATL':['NFC','South','Falcons',1],'CAR':['NFC','South','Panthers',29],'NO':['NFC','South','Saints',18],'TB':['NFC','South','Buccaneers',27],
+'ARI':['NFC','West','Cardinals',22],'LA':['NFC','West','Rams',14],'SF':['NFC','West','49ers',25],'SEA':['NFC','West','Seahawks',26]};
+var aliases={'WAS':'WSH','JAC':'JAX','OAK':'LV','SD':'LAC','STL':'LA','LAR':'LA','WSH':'WSH'};
+function norm(x){x=String(x||'').toUpperCase();return aliases[x]||x}
+function stat(e,k){var a=e.stats||[];for(var i=0;i<a.length;i++)if(a[i].name===k||a[i].abbreviation===k)return a[i].value!==undefined?a[i].value:a[i].displayValue;return null}
+function walk(n,found,depth){if(!n||typeof n!=='object'||depth>12)return; if(n.standings&&Array.isArray(n.standings.entries)){var entries=n.standings.entries;for(var i=0;i<entries.length;i++){var e=entries[i],t=e.team||{},abbr=norm(t.abbreviation||t.shortDisplayName);if(teams[abbr]&&stat(e,'wins')!==null){var key=teams[abbr][0]+' '+teams[abbr][1];if(!found[key])found[key]=[];found[key].push({abbr:abbr,w:Number(stat(e,'wins')),l:Number(stat(e,'losses')),t:Number(stat(e,'ties')||0),pct:Number(stat(e,'winPercent')),divrank:stat(e,'divisionRank')||stat(e,'divisionStanding')||stat(e,'divisionSeed'),rank:stat(e,'rank')});}}} if(Array.isArray(n.children))for(var j=0;j<n.children.length;j++)walk(n.children[j],found,depth+1)}
+var HIGHLIGHT_MS=16*60*60*1000;
+function readStore(key){try{return JSON.parse(localStorage.getItem(key)||'{}')}catch(e){return {}}}
+function render(data,unverified){
+ var old=readStore('nfl_simple_previous');
+ var highlights=readStore('nfl_wall_highlights_16h');
+ var now={},stamp=Date.now();
+ Object.keys(highlights).forEach(function(k){if(!highlights[k]||highlights[k].until<=stamp)delete highlights[k]});
+ ['AFC','NFC'].forEach(function(c){var html='';divisions.forEach(function(d){
+  var arr=data[c+' '+d];html+='<div class="division"><h3>'+d.toUpperCase()+'</h3>';
+  arr.forEach(function(e,i){
+   var rank=i+1,prior=old[e.abbr];
+   // Only real, observed position changes create a highlight; initial load is a baseline.
+   if(typeof prior==='number'&&prior!==rank){highlights[e.abbr]={until:stamp+HIGHLIGHT_MS,from:prior,to:rank}}
+   now[e.abbr]=rank;
+   var h=highlights[e.abbr],moved=!!h;
+   html+='<div class="team'+(moved?' moved':'')+'"><span class="rank">'+rank+'</span><img src="https://a.espncdn.com/i/teamlogos/nfl/500/'+e.abbr.toLowerCase()+'.png" onerror="this.style.visibility=\'hidden\'" alt=""><span class="name">'+teams[e.abbr][2]+(moved?' '+(h.to<h.from?'↑':'↓'):'')+'</span><span class="record">'+e.w+'-'+e.l+(e.t?'-'+e.t:'')+'</span></div>';
+  });html+='</div>';
+ });document.getElementById(c).innerHTML=html});
+ try{localStorage.setItem('nfl_simple_previous',JSON.stringify(now));localStorage.setItem('nfl_wall_highlights_16h',JSON.stringify(highlights))}catch(e){}
+ document.getElementById('status').textContent=(unverified?'ORDER ESTIMATED · ':'')+'Updated '+new Date().toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});
+ document.getElementById('note').textContent=unverified?'ESPN records · Some tied ranks estimated · Green = changed within 16h':'ESPN division ranks · Green = changed within 16h';
+}
+window.load=function(){document.getElementById('status').textContent='Checking ESPN…';var u='https://site.api.espn.com/apis/v2/sports/football/nfl/standings?season=2026&seasontype=2&_='+Date.now();fetch(u,{cache:'no-store'}).then(function(r){if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(function(raw){var found={};walk(raw,found,0);var data={},unverified=false;['AFC','NFC'].forEach(function(c){divisions.forEach(function(d){var k=c+' '+d,all=found[k]||[],unique={};all.forEach(function(e){unique[e.abbr]=e});var arr=Object.keys(unique).map(function(k){return unique[k]});if(arr.length!==4)throw Error('Missing '+k+' ('+arr.length+' teams)');var rankNums=arr.map(function(e){return Number(e.divrank)});var hasRanks=rankNums.every(function(n){return Number.isInteger(n)&&n>=1&&n<=4})&&new Set(rankNums).size===4;if(hasRanks){arr.sort(function(a,b){return Number(a.divrank)-Number(b.divrank)})}else{unverified=true;arr.sort(function(a,b){var pa=isFinite(a.pct)?a.pct:a.w/(a.w+a.l+a.t),pb=isFinite(b.pct)?b.pct:b.w/(b.w+b.l+b.t);var prev=readStore('nfl_simple_previous');return pb-pa||b.w-a.w||((prev[a.abbr]&&prev[b.abbr])?prev[a.abbr]-prev[b.abbr]:0)||a.abbr.localeCompare(b.abbr)})}data[k]=arr})});render(data,unverified)}).catch(function(e){document.getElementById('status').textContent='UPDATE FAILED';document.getElementById('note').innerHTML='<span class="error">'+e.message+' — no rankings shown until data loads.</span>'})};load();setInterval(load,300000);
+})();</script></body></html>
