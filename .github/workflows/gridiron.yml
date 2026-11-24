@@ -1,0 +1,33 @@
+name: Gridiron 27 archive and Jets data
+on:
+  schedule:
+    - cron: '52 */6 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: gridiron-archive
+  cancel-in-progress: false
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install beautifulsoup4
+      - run: python update_gridiron.py
+      - run: |
+          git config user.name 'Gridiron 27 archive'
+          git config user.email 'actions@users.noreply.github.com'
+          git add gridiron-archive
+          for f in gridiron-jets-finance.json gridiron-jets-history.json; do
+            if [ -f "$f" ]; then git add "$f"; fi
+          done
+          if ! git diff --cached --quiet; then
+            git commit -m 'Update Gridiron 27 archive and Jets data'
+            git pull --rebase
+            git push
+          fi
