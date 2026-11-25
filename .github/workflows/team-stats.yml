@@ -1,0 +1,30 @@
+name: Gridiron 27 team season statistics
+on:
+  schedule:
+    - cron: '38 */3 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: gridiron-team-stats
+  cancel-in-progress: false
+jobs:
+  stats:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install beautifulsoup4
+      - run: python update_team_stats.py
+      - run: |
+          git config user.name 'Gridiron 27 stats'
+          git config user.email 'actions@users.noreply.github.com'
+          git add team-season-stats.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Update team season statistics'
+            git pull --rebase
+            git push
+          fi
