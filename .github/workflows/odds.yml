@@ -1,0 +1,32 @@
+name: Gridiron 27 odds history
+on:
+  schedule:
+    - cron: '23 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: gridiron-odds
+  cancel-in-progress: false
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python update_odds.py
+      - run: |
+          git config user.name 'Gridiron 27 odds'
+          git config user.email 'actions@users.noreply.github.com'
+          if [ -d odds-history ]; then git add odds-history; fi
+          if ! git diff --cached --quiet; then
+            git commit -m 'Record NFL pregame odds'
+            for attempt in 1 2 3; do
+              git pull --rebase && git push && exit 0
+              sleep 5
+            done
+            exit 1
+          fi
