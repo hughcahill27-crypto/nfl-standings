@@ -1,8 +1,170 @@
 {
   "source": "https://www.sports-king.com/nfl-playoff-odds.php",
-  "source_date": "November 25, 2026",
-  "retrieved": "2026-11-26T07:57:11.624144+00:00",
+  "source_date": "November 26, 2026",
+  "retrieved": "2026-11-26T13:52:24.335395+00:00",
   "teams": {
+    "BUF": {
+      "playoff": ">99.9%",
+      "division": "99.2%",
+      "bye": "53.9%"
+    },
+    "SF": {
+      "playoff": "99.9%",
+      "division": "95.0%",
+      "bye": "71.4%"
+    },
+    "JAX": {
+      "playoff": "99.2%",
+      "division": "95.9%",
+      "bye": "6.7%"
+    },
+    "KC": {
+      "playoff": "99.2%",
+      "division": "46.2%",
+      "bye": "13.9%"
+    },
+    "DEN": {
+      "playoff": "98.9%",
+      "division": "53.8%",
+      "bye": "19.8%"
+    },
+    "CIN": {
+      "playoff": "97.8%",
+      "division": "82.5%",
+      "bye": "5.6%"
+    },
+    "DET": {
+      "playoff": "94.6%",
+      "division": "51.2%",
+      "bye": "17.2%"
+    },
+    "MIN": {
+      "playoff": "88.9%",
+      "division": "23.9%",
+      "bye": "2.5%"
+    },
+    "CHI": {
+      "playoff": "88.3%",
+      "division": "24.4%",
+      "bye": "7.0%"
+    },
+    "NYG": {
+      "playoff": "72.5%",
+      "division": "71.0%",
+      "bye": "0.5%"
+    },
+    "PIT": {
+      "playoff": "69.0%",
+      "division": "9.7%",
+      "bye": "0.1%"
+    },
+    "LA": {
+      "playoff": "57.1%",
+      "division": "2.4%",
+      "bye": "0.9%"
+    },
+    "NE": {
+      "playoff": "49.7%",
+      "division": "0.8%",
+      "bye": "<0.1%"
+    },
+    "SEA": {
+      "playoff": "49.4%",
+      "division": "2.6%",
+      "bye": "0.6%"
+    },
+    "CAR": {
+      "playoff": "48.7%",
+      "division": "48.4%",
+      "bye": "<0.1%"
+    },
+    "CLE": {
+      "playoff": "48.2%",
+      "division": "7.7%",
+      "bye": "<0.1%"
+    },
+    "TB": {
+      "playoff": "38.6%",
+      "division": "38.5%",
+      "bye": "0%"
+    },
+    "HOU": {
+      "playoff": "29.1%",
+      "division": "4.1%",
+      "bye": "0%"
+    },
+    "GB": {
+      "playoff": "17.3%",
+      "division": "0.4%",
+      "bye": "0%"
+    },
+    "WSH": {
+      "playoff": "16.6%",
+      "division": "15.5%",
+      "bye": "0%"
+    },
+    "DAL": {
+      "playoff": "14.4%",
+      "division": "13.1%",
+      "bye": "0%"
+    },
+    "ATL": {
+      "playoff": "7.9%",
+      "division": "7.8%",
+      "bye": "0%"
+    },
+    "LV": {
+      "playoff": "6.1%",
+      "division": "<0.1%",
+      "bye": "0%"
+    },
+    "NO": {
+      "playoff": "5.4%",
+      "division": "5.3%",
+      "bye": "0%"
+    },
+    "BAL": {
+      "playoff": "2.4%",
+      "division": "<0.1%",
+      "bye": "0%"
+    },
+    "PHI": {
+      "playoff": "0.5%",
+      "division": "0.5%",
+      "bye": "0%"
+    },
+    "NYJ": {
+      "playoff": "0.2%",
+      "division": "0%",
+      "bye": "0%"
+    },
+    "IND": {
+      "playoff": "0.2%",
+      "division": "<0.1%",
+      "bye": "0%"
+    },
+    "MIA": {
+      "playoff": "<0.1%",
+      "division": "0%",
+      "bye": "0%"
+    },
+    "TEN": {
+      "playoff": "0%",
+      "division": "0%",
+      "bye": "0%"
+    },
+    "LAC": {
+      "playoff": "0%",
+      "division": "0%",
+      "bye": "0%"
+    },
+    "ARI": {
+      "playoff": "0%",
+      "division": "0%",
+      "bye": "0%"
+    }
+  },
+  "previous": {
     "BUF": {
       "playoff": ">99.9%",
       "division": "99.2%",
@@ -159,168 +321,6 @@
       "bye": "0%"
     },
     "LAC": {
-      "playoff": "0%",
-      "division": "0%",
-      "bye": "0%"
-    }
-  },
-  "previous": {
-    "BUF": {
-      "playoff": ">99.9%",
-      "division": "99.1%",
-      "bye": "53.7%"
-    },
-    "SF": {
-      "playoff": "99.8%",
-      "division": "95.7%",
-      "bye": "71.6%"
-    },
-    "KC": {
-      "playoff": "99.3%",
-      "division": "46.5%",
-      "bye": "14.0%"
-    },
-    "JAX": {
-      "playoff": "99.2%",
-      "division": "95.9%",
-      "bye": "6.8%"
-    },
-    "DEN": {
-      "playoff": "98.9%",
-      "division": "53.5%",
-      "bye": "19.7%"
-    },
-    "CIN": {
-      "playoff": "97.7%",
-      "division": "82.4%",
-      "bye": "5.7%"
-    },
-    "DET": {
-      "playoff": "94.4%",
-      "division": "50.8%",
-      "bye": "17.0%"
-    },
-    "MIN": {
-      "playoff": "89.0%",
-      "division": "23.8%",
-      "bye": "2.6%"
-    },
-    "CHI": {
-      "playoff": "88.1%",
-      "division": "24.2%",
-      "bye": "7.1%"
-    },
-    "NYG": {
-      "playoff": "72.3%",
-      "division": "70.6%",
-      "bye": "0.4%"
-    },
-    "PIT": {
-      "playoff": "68.9%",
-      "division": "9.9%",
-      "bye": "0.2%"
-    },
-    "NE": {
-      "playoff": "49.8%",
-      "division": "0.9%",
-      "bye": "<0.1%"
-    },
-    "SEA": {
-      "playoff": "49.2%",
-      "division": "2.7%",
-      "bye": "0.6%"
-    },
-    "CAR": {
-      "playoff": "48.8%",
-      "division": "48.4%",
-      "bye": "<0.1%"
-    },
-    "CLE": {
-      "playoff": "48.2%",
-      "division": "7.6%",
-      "bye": "<0.1%"
-    },
-    "LA": {
-      "playoff": "44.0%",
-      "division": "1.7%",
-      "bye": "0.6%"
-    },
-    "TB": {
-      "playoff": "39.1%",
-      "division": "38.9%",
-      "bye": "0%"
-    },
-    "GB": {
-      "playoff": "30.9%",
-      "division": "1.2%",
-      "bye": "<0.1%"
-    },
-    "HOU": {
-      "playoff": "29.0%",
-      "division": "4.1%",
-      "bye": "0%"
-    },
-    "WSH": {
-      "playoff": "16.7%",
-      "division": "15.5%",
-      "bye": "0%"
-    },
-    "DAL": {
-      "playoff": "14.6%",
-      "division": "13.4%",
-      "bye": "0%"
-    },
-    "ATL": {
-      "playoff": "7.6%",
-      "division": "7.5%",
-      "bye": "0%"
-    },
-    "LV": {
-      "playoff": "6.2%",
-      "division": "<0.1%",
-      "bye": "0%"
-    },
-    "NO": {
-      "playoff": "5.1%",
-      "division": "5.1%",
-      "bye": "0%"
-    },
-    "BAL": {
-      "playoff": "2.5%",
-      "division": "0.1%",
-      "bye": "0%"
-    },
-    "PHI": {
-      "playoff": "0.5%",
-      "division": "0.4%",
-      "bye": "0%"
-    },
-    "NYJ": {
-      "playoff": "0.3%",
-      "division": "0%",
-      "bye": "0%"
-    },
-    "IND": {
-      "playoff": "0.2%",
-      "division": "<0.1%",
-      "bye": "0%"
-    },
-    "MIA": {
-      "playoff": "0%",
-      "division": "0%",
-      "bye": "0%"
-    },
-    "TEN": {
-      "playoff": "0%",
-      "division": "0%",
-      "bye": "0%"
-    },
-    "LAC": {
-      "playoff": "0%",
-      "division": "0%",
-      "bye": "0%"
-    },
-    "ARI": {
       "playoff": "0%",
       "division": "0%",
       "bye": "0%"
